@@ -1,0 +1,190 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\headheight 1in
+\headsep 1in
+\footskip 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section*
+1 2D- Fourier Transform
+\end_layout
+
+\begin_layout Subsection*
+1.1 Writing your own functions
+\end_layout
+
+\begin_layout Enumerate
+In this section, we wrote our own 2D-FFT and 2D-IFFT transform.
+ We used the given equation for the FFT transform and iFFT transform
+\begin_inset Formula 
+\[
+F(u+1,v+1)=\sum_{m=0}^{M-1}\sum_{n=0}^{N-1}I(m+1,n+1)\cdot e^{-2\pi i(\frac{um}{M}+\frac{un}{N})}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+I(u+1,v+1)=\frac{1}{MN}\sum_{u=0}^{M-1}\sum_{V=0}^{N-1}F(u+1,v+1)\cdot e^{2\pi i(\frac{um}{M}+\frac{un}{N})}
+\]
+
+\end_inset
+
+ Here are the function: 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/fft2 and ifft_2.png
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+dip_fft2 and dip_ifft2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+For those functions we also used the auxiliary functions 
+\family typewriter
+dip_fft()
+\family default
+ and 
+\family typewriter
+dip_ifft() which calculates the 1D-FFT and 1D-iFFT: 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figures/fft and ifft.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+dip_fft and dip_ifft
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
