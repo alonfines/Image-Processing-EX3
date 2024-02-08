@@ -50,7 +50,7 @@ function F = dip_fft2(I)
 end
 
 function Y = dip_fft(X)
-    % Cooley-Tukey FFT algorithm
+    % Radix-2 FFT algorithm
     N = length(X);
     if N <= 1
         Y = X;
