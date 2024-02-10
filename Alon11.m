@@ -2,27 +2,52 @@ clc;
 close all;
 clear all;
 
+% Displaying the names of the submitters:
+disp('Alon Finestein - 318354057')
+disp('Binyamin Pardilov - 316163914')
 
+%% ---------------1.1 Writing your own functions---------------------------
 % 1.1.3
 beatles_norm = imread_double_norm('beatles.png');
 gray_beatles = rgb2gray(beatles_norm);
+imshow(gray_beatles)
 
-% 1.1.4
+% % 1.1.4
 fft_beatles = dip_fft2(gray_beatles);
+shifted_fft_beatles = dip_fftshift(fft_beatles);
+amp_fft_beatles = abs(shifted_fft_beatles);
+phase_fft_beatles = atan2(imag(shifted_fft_beatles), real(shifted_fft_beatles));
 
 figure;
-imagesc(log(abs(fft_beatles)));
-colormap("gray")
+subplot(1,2,1);
+imagesc(log(amp_fft_beatles));
+colormap(subplot(1,2,1),"gray");
+colorbar;
+title("log of Amplitude")
+
+subplot(1,2,2);
+imagesc(phase_fft_beatles);
+colormap(subplot(1,2,2),"gray");
+colorbar;
+title("Phase")
 
 ifft_beatles = dip_ifft2(fft_beatles);
+
 figure;
 imagesc(real(ifft_beatles));
 colormap("gray")
+title('dip ifft2 image')
+
+% test
+[m,n]=size(gray_beatles);
+cropped_img = ifft_beatles(1:m,1:n);
+
+diff_val = abs(gray_beatles-real(cropped_img));
+max_diff = max(max(diff_val));
 
 %%------------------ Functions --------------------------------------------
 
 % 1.1.1
-
 function F = dip_fft2(I)
     % Check if input is complex, if not convert it to complex
     if ~isreal(I)
@@ -79,10 +104,14 @@ function I = dip_ifft2(FFT)
     for n = 1:size(FFT, 2)
         I(:, n) = dip_ifft(I_col(:, n).');
     end
+
+    % Normalizing by 1/MN
+    [m,n] = size(FFT);
+    I = I./(m*n);
 end
 
 function Y = dip_ifft(X)
-    % Cooley-Tukey IFFT algorithm
+    % Radix-2 FFT algorithm
     N = length(X);
     if N <= 1
         Y = X;
