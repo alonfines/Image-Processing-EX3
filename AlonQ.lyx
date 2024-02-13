@@ -184,69 +184,10 @@ dip_ifft2()
 
 \end_inset
 
- For those functions we also used auxiliary functions 
-\family typewriter
-dip_fft()
-\family default
- and 
-\family typewriter
-dip_ifft() 
-\family default
-which calculates the 1D-FFT and 1D-iFFT respectively:
-\family typewriter
-
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename Figures/dip_fft and dip_ifft() - Copy.png
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\family typewriter
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\family typewriter
-dip_fft()
-\family default
- and 
-\family typewriter
-dip_ifft()
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\family default
-1.
- Explanation: The dip_fft2() function: We took the matrix and made sure
- all the input is in complex form.
- If not, convert it so.
- Then, we made sure that the dimensions of the matrix are powers of two.
- If not, pad it with zeroes to fit those sizes.
- Then, we will notice that if we rearrange the given formula for 2D-FFT,
- we can view the transform as firstly a 1D-DFT to all the columns, and then
- a 1D-DFT to all the rows of those transformed columns.
+ Explanation: The dip_fft2() function: Then, we will notice that if we rearrange
+ the given formula for 2D-FFT, we can view the transform as firstly a 1D-DFT
+ to all the columns, and then a 1D-DFT to all the rows of those transformed
+ columns.
  We derive it from this form: 
 \begin_inset Formula 
 \[
@@ -255,105 +196,16 @@ F(u+1,v+1)=\sum_{m=0}^{M-1}\overset{columns\,FFT\,transform}{\left(\sum_{n=0}^{N
 
 \end_inset
 
-In order to do so, we use the 
-\family typewriter
-dip_fft()
-\family default
- function.
- This function uses the radix-2 FFT algorithm.
- Let 
-\series bold
-
-\begin_inset Formula $\boldsymbol{X}^{\text{d}}$
-\end_inset
-
-
-\series default
- the 
-\begin_inset Formula $N$
-\end_inset
-
- size vector that represents the DFT of vector 
-\begin_inset Formula $\boldsymbol{x}$
-\end_inset
-
-.
- We will denote 
-\begin_inset Formula $\boldsymbol{X}_{e}$
-\end_inset
-
- as the even index entries and 
-\begin_inset Formula $\boldsymbol{X}_{\text{o}}$
-\end_inset
-
- as the odd index entries.
- We will note that each of these vectors are of 
-\begin_inset Formula $N/2$
-\end_inset
-
- length.
- We will also denote 
-\begin_inset Formula $\boldsymbol{W}_{N}=(1,\,e^{-\frac{2\pi i}{N}},\,e^{-2\cdot\frac{2\pi i}{N}},\:\cdots,\:e^{-(N/2-1)\cdot\frac{2\pi i}{N}})$
-\end_inset
-
-.
- The radix-2 algorithm says that:
-\begin_inset Formula 
-\[
-\boldsymbol{X}^{d}=\begin{pmatrix}\boldsymbol{X}_{e}+\boldsymbol{W}_{N}\boldsymbol{X}_{o}\\
-\boldsymbol{X}_{e}-\boldsymbol{W}_{N}\boldsymbol{X}_{o}
-\end{pmatrix}
-\]
-
-\end_inset
-
-We can also see that we can repeat this process recursively for each 
-\begin_inset Formula $\boldsymbol{X}_{e}$
-\end_inset
-
- and 
-\begin_inset Formula $\boldsymbol{X}_{o}$
-\end_inset
-
- until 
-\begin_inset Formula $N=1$
-\end_inset
-
-.
- The 
-\family typewriter
-dip_ifft2()
-\family default
- function works very similarly except few variations:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-There is no need to pad with zeros.
- (i assumes the FFT sizes are already padded to the power of 2)
-\end_layout
-
-\begin_layout Itemize
-\begin_inset Formula $\boldsymbol{W}_{N}=(1,\,e^{\frac{2\pi i}{N}},\,e^{2\cdot\frac{2\pi i}{N}},\:\cdots,\:e^{(N/2-1)\cdot\frac{2\pi i}{N}})$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-At the end we normalized the result by 
+In order to do so, we created Fourier matrix so multiplication of those
+ matrix would give us the result we need.
+ For the iFFT we used the same strategy, only we added a normalization of
+ 
 \begin_inset Formula $\frac{1}{MN}$
 \end_inset
 
- 
+.
 \end_layout
 
-\begin_layout Standard
-Note: the dip_ifft() will return an image that is padded with zeros.
- 
-\end_layout
-
-\end_deeper
 \begin_layout Enumerate
 Here is the dip_fftshift() function we wrote: 
 \begin_inset Float figure
@@ -365,6 +217,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Figures/shifted_FFT - Copy.png
+	width 3in
 
 \end_inset
 
@@ -408,6 +261,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Figures/imread_double_norm().png
+	width 5.5in
 
 \end_inset
 
@@ -526,7 +380,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-dip_fft2() image
+dip_ifft2() image
 \end_layout
 
 \end_inset
@@ -536,14 +390,11 @@ dip_fft2() image
 
 \end_inset
 
-As we can see there is a difference from the original image.
- There are added black pixels.
- This is due to the zero padding we did in the dip_fft2() function in order
- to speed up the calculations.
+As we can see, we got a very similar image.
  We conducted a test to measure the differences of the original image pixels
  and the corresponding dip_ifft2() image pixels.
  We calculated the maximum value of absolute difference, and we obtained
- that is 8.326672684688674e-16.
+ that is 4.002354003773689e-13.
  A minor change due to computational errors.
  We will conclude from the findings that the inverse transformation was
  successful.
